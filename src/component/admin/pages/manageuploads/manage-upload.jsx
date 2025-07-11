@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { storage, db } from "../../../../../../frontend/backend/config/firebase";
+import { storage, db } from "../../../../../backend/config/firebase";
 import {
   ref,
   uploadBytesResumable,
