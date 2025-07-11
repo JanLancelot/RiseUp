@@ -6,42 +6,38 @@ export default function RecordedMass() {
   const [videoURL, setVideoURL] = useState('');
   const [loading, setLoading] = useState(true);
 
-  // Define styles as an object for better organization and reusability
   const styles = {
-    // A wrapper to center the card on the page
     container: {
       display: 'flex',
       justifyContent: 'center',
       alignItems: 'center',
-      padding: '3rem 2rem', // Increased padding for more space around the card
+      padding: '3rem 2rem',
     },
-    // The "glass" card that holds the content
     card: {
       width: '100%',
-      maxWidth: '1100px', // <<< Increased from 900px to make the card larger
+      maxWidth: '1100px',
       backgroundColor: 'rgba(10, 25, 47, 0.65)',
       backdropFilter: 'blur(10px)',
-      padding: '2.5rem', // Increased padding inside the card
-      borderRadius: '20px', // Slightly larger border radius
+      padding: '2.5rem',
+      borderRadius: '20px',
       boxShadow: '0 8px 32px 0 rgba(0, 0, 0, 0.37)',
       border: '1px solid rgba(255, 255, 255, 0.18)',
       color: '#FFFFFF',
     },
     title: {
       textAlign: 'center',
-      marginBottom: '2rem', // More space below the title
+      marginBottom: '2rem',
       color: '#FFFFFF',
-      fontSize: 'clamp(1.7rem, 5vw, 2.7rem)', // <<< Increased font size
+      fontSize: 'clamp(1.7rem, 5vw, 2.7rem)',
       fontWeight: '600',
       textShadow: '2px 2px 4px rgba(0, 0, 0, 0.5)',
     },
-    // Wrapper for the iframe to maintain aspect ratio
     videoWrapper: {
       position: 'relative',
-      paddingTop: '56.25%', // 16:9 aspect ratio
+      paddingTop: '56.25%',
       height: 0,
       backgroundColor: '#000',
-      borderRadius: '12px', // Increased border radius for the video
+      borderRadius: '12px',
       overflow: 'hidden',
       boxShadow: '0 4px 15px rgba(0, 0, 0, 0.2)',
     },
@@ -53,12 +49,11 @@ export default function RecordedMass() {
       height: '100%',
       border: '0',
     },
-    // Style for loading and error messages
     messageText: {
       textAlign: 'center',
-      fontSize: '1.4rem', // Larger message text
+      fontSize: '1.4rem',
       fontWeight: '500',
-      padding: '5rem 0', // More vertical space
+      padding: '5rem 0',
     },
   };
 
@@ -96,7 +91,6 @@ export default function RecordedMass() {
     fetchVideo();
   }, []);
 
-  // Use a shared layout for all states
   const renderCardContent = () => {
     if (loading) {
       return <p style={styles.messageText}>Loading video...</p>;

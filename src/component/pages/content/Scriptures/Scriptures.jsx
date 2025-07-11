@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { doc, getDoc } from "firebase/firestore";
-import { db } from "../../../../../../frontend/backend/config/firebase";
+import { db } from "../../../../../backend/config/firebase";
 
 const Scriptures = ({ date }) => {
   const [scriptureData, setScriptureData] = useState(null);
