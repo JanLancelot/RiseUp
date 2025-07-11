@@ -6,7 +6,7 @@ import {
   deleteDoc,
   updateDoc,
 } from "firebase/firestore";
-import { db } from "../../../../../../frontend/backend/config/firebase";
+import { db } from "../../../../../backend/config/firebase";
 
 const ManageContent = () => {
   const [contentList, setContentList] = useState([]);
