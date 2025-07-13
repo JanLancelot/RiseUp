@@ -1,9 +1,10 @@
 import { useState, useRef } from 'react';
-import crosslogo from './../../assets/images/icons/cross.png'
+import crosslogo from './../../assets/images/icons/cross.png';
 import { TfiEmail } from "react-icons/tfi";
 import { CiLock, CiMail } from "react-icons/ci";
 import { FaGoogle } from "react-icons/fa";
 import { RiAccountCircleLine } from "react-icons/ri";
+import { IoEyeOutline, IoEyeOff } from "react-icons/io5";
 import { useNavigate } from 'react-router-dom';
 import { signInWithEmailAndPassword, signInWithPopup, sendPasswordResetEmail } from 'firebase/auth';
 import { authUser, googleProvider, db } from '../../../backend/config/firebase';
@@ -14,11 +15,10 @@ function SignInForm() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [isLgoin, setIsLogin] = useState(false);
+    const [showPassword, setShowPassword] = useState(false);
     const emailRef = useRef(null);
     const passwordRef = useRef(null);
 
-
-    //sigin to email & password
     const handleLogin = async (e) => {
         e.preventDefault();
         setIsLogin(true);
@@ -44,17 +44,16 @@ function SignInForm() {
                         lastActive: serverTimestamp()
                     }, { merge: true });
 
-                    // ✅ Set offline on tab close/refresh
                     window.addEventListener('beforeunload', () => {
                         setDoc(userDocRef, {
                             isOnline: false
                         }, { merge: true });
                     });
+
                     navigate("/dashboard");
                 } else {
                     console.warn("Unknown user role:", role);
                 }
-
             } else {
                 console.error("No user document found in Firestore!");
             }
@@ -64,7 +63,6 @@ function SignInForm() {
             setPassword("");
             console.error("Login Error: ", err.message);
 
-            //Set input red color if incorrect Credentials
             if (emailRef.current) {
                 emailRef.current.style.border = "2px solid red";
             }
@@ -72,9 +70,8 @@ function SignInForm() {
                 passwordRef.current.style.border = "2px solid red";
             }
         }
-    }
+    };
 
-    //reset input color
     const handleInputChange = (setter, ref) => (e) => {
         setter(e.target.value);
         if (ref.current) {
@@ -83,7 +80,6 @@ function SignInForm() {
         }
     };
 
-    //sigin with google
     const handleLoginWithGoogle = async () => {
         try {
             const userGoogleCredentials = await signInWithPopup(authUser, googleProvider);
@@ -94,7 +90,6 @@ function SignInForm() {
             let userSnap = await getDoc(userRef);
 
             if (!userSnap.exists()) {
-
                 await setDoc(userRef, {
                     email: user.email,
                     username: username,
@@ -121,14 +116,12 @@ function SignInForm() {
 
             localStorage.setItem('userRole', role);
 
-            // Handle tab close/logout
             window.addEventListener('beforeunload', () => {
                 setDoc(userRef, {
                     isOnline: false
                 }, { merge: true });
             });
 
-            // ✅ Navigate based on role
             if (role === 'admin') {
                 navigate('/admin-dashboard');
             } else {
@@ -140,7 +133,6 @@ function SignInForm() {
         }
     };
 
-    //reset sequences process
     const handleResetPassword = () => {
         if (email.trim() !== "") {
             sendPasswordResetEmail(authUser, email)
@@ -160,13 +152,9 @@ function SignInForm() {
             <form className='formbox-login' onSubmit={handleLogin}>
                 <div className='fillbox'>
                     <div className='logo-title-container'>
-                        <img src={crosslogo} className='logo-img' />
-                        <h2>
-                            RiseUp
-                        </h2>
-                        <p>
-                            - PATHWAY OF ENLIGTENHMENT -
-                        </p>
+                        <img src={crosslogo} className='logo-img' alt="logo" />
+                        <h2 className='riseup-title'>RiseUp</h2>
+                        <p className='riseup-subtitle'>- PATHWAY OF ENLIGHTENMENT -</p>
                     </div>
                     <div className='input-login'>
                         <div className='formgroup-input'>
@@ -180,21 +168,37 @@ function SignInForm() {
                                 ref={emailRef}
                             />
                         </div>
-                        <div className='formgroup-input'>
+                        <div className='formgroup-input' style={{ position: 'relative' }}>
                             <CiLock className='groupicon' />
                             <input
                                 className='txt-input'
                                 placeholder='Password'
-                                type='password'
+                                type={showPassword ? 'text' : 'password'}
                                 value={password}
                                 onChange={handleInputChange(setPassword, passwordRef)}
                                 ref={passwordRef}
                             />
+                            <span
+                                onClick={() => setShowPassword(!showPassword)}
+                                style={{
+                                    position: 'absolute',
+                                    right: '1rem',
+                                    top: '50%',
+                                    transform: 'translateY(-50%)',
+                                    cursor: 'pointer',
+                                    color: '#666'
+                                }}
+                                title={showPassword ? 'Hide password' : 'Show password'}
+                            >
+                                {showPassword ? <IoEyeOff /> : <IoEyeOutline />}
+                            </span>
                         </div>
                         <div className='forget-pass'>
-                            <a className='forgetpass-link'
+                            <a
+                                className='forgetpass-link'
                                 type='button'
-                                onClick={handleResetPassword}>
+                                onClick={handleResetPassword}
+                            >
                                 Forgot password?
                             </a>
                         </div>
@@ -236,7 +240,7 @@ function SignInForm() {
                 </div>
             </form>
         </div>
-    )
+    );
 }
 
 export default SignInForm;

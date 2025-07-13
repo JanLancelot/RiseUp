@@ -18,6 +18,7 @@ function SignUpForm() {
   const [fname, setFName] = useState("");
   const [password, setPassword] = useState("");
   const [rePassword, setRePassword] = useState("");
+  const [userType, setUserType] = useState("");
   const [isSigningUp, setIsSigningUp] = useState(false);
 
   const emailRef = useRef(null);
@@ -66,16 +67,13 @@ function SignUpForm() {
           parish: null,
           createdAt: new Date(),
           year: null,
-          section: null,
+          section: userType,
           role: 'client',
           isOnline: true,
           lastActive: serverTimestamp(),
         });
 
-        // Send email verification
         await sendEmailVerification(user);
-
-        // Auto sign out after sending email verification
         await signOut(authUser);
 
         alert("✔ Account created! A verification email has been sent. Please check your inbox or spam folder to verify your email before logging in.");
@@ -125,6 +123,22 @@ function SignUpForm() {
                 ref={fullnameRef}
                 required
               />
+            </div>
+            <div className='formgroup-input'>
+              <select
+                className='txt-input'
+                value={userType}
+                onChange={(e) => setUserType(e.target.value)}
+                required
+              >
+                <option value="">Select Type</option>
+                <option value="IT-3A">IT-3A</option>
+                <option value="IT-3B">IT-3B</option>
+                <option value="IT-3C">IT-3C</option>
+                <option value="CS3A">CS3A</option>
+                <option value="CPE3A">CPE3A</option>
+                <option value="CPE3B">CPE3B</option>
+              </select>
             </div>
             <div className='formgroup-input'>
               <input

@@ -34,6 +34,7 @@ import {
   FaBible,
   FaSignOutAlt,
 } from "react-icons/fa";
+import { FcAbout } from "react-icons/fc";
 import { RiPsychotherapyFill } from "react-icons/ri";
 
 function DashboardPage() {
@@ -415,6 +416,7 @@ function DashboardPage() {
               <div className="information-container">
                 <div className="user-details">
                   <FaUserCircle className="pp-icon" />
+
                   <div className="text-info">
                     <p className="fullname-display">
                       <strong>{fullName || "Guest"}</strong>
@@ -427,6 +429,7 @@ function DashboardPage() {
               </div>
             </div>
             <div className="menu-sidebar">
+              <br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
               <div className="group-btn-selection">
                 <button
                   className={`btn-selection-input ${
@@ -502,6 +505,17 @@ function DashboardPage() {
                 >
                   <FaCross className="icon-group" /> Rosary
                 </button>
+                <button
+                  className={`btn-selection-input ${
+                    location.pathname.includes("/profile") ? "active" : ""
+                  }`}
+                  onClick={() =>
+                    handleSidebarClick("/dashboard/profile")
+                  }
+                >
+                  <FaUserCircle className="icon-group" /> Profile
+                </button>
+                
                 <button
                   className="btn-selection-input logout-btn"
                   onClick={handleLogout}

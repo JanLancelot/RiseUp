@@ -37,6 +37,8 @@ import Scriptures from './component/pages/content/Scriptures/Scriptures';
 import Deepening from './component/pages/Deepening/Deepening';
 import ManageUpload from './component/admin/pages/manageuploads/manage-upload';
 import ManageContent from './component/admin/pages/manageuploads/manage-content';
+import Profile_User from './component/pages/profile/profile_user';
+
 //import Video_GC from './component/pages/content/God-Centered-Video/video_GC';
 
 
@@ -89,6 +91,10 @@ const router = createBrowserRouter([
          {
         path: '/dashboard/Deepening',
         element: < Deepening/>
+      },
+        {
+        path: '/dashboard/profile',
+        element: < Profile_User/>
       },
     ]
   },
@@ -160,7 +166,6 @@ function App() {
   return (
     <>
       <div className='app'>
-        <p className='version-display'>RiseUp Version 0.5 – In Developmental Stage</p>
         <RouterProvider router={router} />
       </div>
     </>

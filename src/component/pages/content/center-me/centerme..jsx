@@ -13,7 +13,7 @@ export default function RecordedCenterMe() {
           timeZone: 'Asia/Manila',
           year: 'numeric',
           month: '2-digit',
-          day: '2-digit'
+          day: '2-digit',
         });
 
         const formattedDate = manilaFormatter.format(new Date());
@@ -40,28 +40,84 @@ export default function RecordedCenterMe() {
     fetchCenterMeVideo();
   }, []);
 
-  if (loading) return <p>Loading Center Me video...</p>;
-  if (!centerMeURL) return <p>No Center Me video available for today.</p>;
+  const styles = {
+    container: {
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+      padding: '3rem 2rem',
+    },
+    card: {
+      width: '100%',
+      maxWidth: '1100px',
+      backgroundColor: 'rgba(10, 25, 47, 0.65)',
+      backdropFilter: 'blur(10px)',
+      padding: '2.5rem',
+      borderRadius: '20px',
+      boxShadow: '0 8px 32px 0 rgba(0, 0, 0, 0.37)',
+      border: '1px solid rgba(255, 255, 255, 0.18)',
+      color: '#FFFFFF',
+    },
+    title: {
+      textAlign: 'center',
+      marginBottom: '2rem',
+      color: '#FFFFFF',
+      fontSize: 'clamp(1.7rem, 5vw, 2.7rem)',
+      fontWeight: '600',
+      textShadow: '2px 2px 4px rgba(0, 0, 0, 0.5)',
+    },
+    videoWrapper: {
+      position: 'relative',
+      paddingTop: '56.25%',
+      height: 0,
+      backgroundColor: '#000',
+      borderRadius: '12px',
+      overflow: 'hidden',
+      boxShadow: '0 4px 15px rgba(0, 0, 0, 0.2)',
+    },
+    iframe: {
+      position: 'absolute',
+      top: 0,
+      left: 0,
+      width: '100%',
+      height: '100%',
+      border: '0',
+    },
+    messageText: {
+      textAlign: 'center',
+      fontSize: '1.4rem',
+      fontWeight: '500',
+      padding: '5rem 0',
+    },
+  };
+
+  const renderContent = () => {
+    if (loading) {
+      return <p style={styles.messageText}>Loading Center Me video...</p>;
+    }
+    if (!centerMeURL) {
+      return <p style={styles.messageText}>No Center Me video available for today.</p>;
+    }
+    return (
+      <>
+        <h2 style={styles.title}>Center Me Video for Today</h2>
+        <div style={styles.videoWrapper}>
+          <iframe
+            src={centerMeURL}
+            title="Center Me Video"
+            allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+            allowFullScreen
+            style={styles.iframe}
+          />
+        </div>
+      </>
+    );
+  };
 
   return (
-    <div style={{ width: '100%', maxWidth: '900px', margin: '0 auto' }}>
-      <h2 style={{ textAlign: 'center', marginBottom: '1rem' }}>Center Me Video for Today</h2>
-      <div style={{ position: 'relative', paddingTop: '56.25%', height: 0 }}>
-        <iframe
-          src={centerMeURL}
-          title="Center Me Video"
-          frameBorder="0"
-          allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
-          allowFullScreen
-          style={{
-            position: 'absolute',
-            top: 0,
-            left: 0,
-            width: '100%',
-            height: '100%',
-            borderRadius: '8px',
-          }}
-        />
+    <div style={styles.container}>
+      <div style={styles.card}>
+        {renderContent()}
       </div>
     </div>
   );
